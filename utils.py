@@ -365,3 +365,15 @@ def categorical_norm(ys, numbins=50):
     nys[np.isnan(nys)] = numbins
     nnys[np.isnan(nnys)] = np.random.uniform(low=-1.0, high=1.0, size=sum(np.isnan(nnys)))
     return nys, nnys
+
+def invert_categorical_norm(ys, npreds, cpreds, numbins=50):
+    max = np.nanmax(ys)
+    min = np.nanmin(ys)
+    bins = np.linspace(min, max, num=numbins)
+
+    nys = deepcopy(ys)
+    for num, cat in zip(npreds, cpreds):
+        pass
+
+        
+
