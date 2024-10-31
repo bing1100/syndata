@@ -336,3 +336,44 @@ def unison_shuffled_copies(a, b):
     #assert len(a) == len(b)
     p = np.random.permutation(len(a))
     return np.array(a)[p], np.array(b)[p]
+
+def categorical_norm(ys, numbins=50):
+    max = np.nanmax(ys)
+    min = np.nanmin(ys)
+    bins = np.linspace(min, max, num=numbins)
+    s = np.array(sorted(enumerate(ys), key=lambda x:x[1]))
+    s_inds = s[:,0].astype(int)
+    s_ys = s[:,1]
+    
+    
+    nys = deepcopy(ys)
+    nnys = deepcopy(ys)
+    for i in range(numbins-1):
+        low = bins[i]
+        high = bins[i+1]
+
+        tbool = np.logical_and(low<=s_ys, s_ys<=high)
+        
+        if sum(tbool) > 1:
+            nys[np.array(s_inds[tbool])] = i+1
+
+            print(low, high)
+            normalized = (nnys[np.array(s_inds[tbool])] - low) / (high-low)
+            print(normalized)
+            nnys[np.array(s_inds[tbool])] = normalized * 2 - 1
+
+    nys[np.isnan(nys)] = numbins
+    nnys[np.isnan(nnys)] = np.random.uniform(low=-1.0, high=1.0, size=sum(np.isnan(nnys)))
+    return nys, nnys
+
+def invert_categorical_norm(ys, npreds, cpreds, numbins=50):
+    max = np.nanmax(ys)
+    min = np.nanmin(ys)
+    bins = np.linspace(min, max, num=numbins)
+
+    nys = deepcopy(ys)
+    for num, cat in zip(npreds, cpreds):
+        pass
+
+        
+
