@@ -3,3 +3,4 @@ __pycache__
 *.db
 2024-10-25-optimize-ximagand.db
 2024-10-25-sampler.pkl
+config.yaml
