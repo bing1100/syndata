@@ -10,7 +10,7 @@ import math
 import numpy as np
 from utils import *
 
-def sample_noise(b, dmss, numbins=15):
+def sample_noise(b, dmss, numbins=30):
     vs = []
     for d,m,s in dmss:
         samples = np.random.choice(numbins-1, b, p=d)
