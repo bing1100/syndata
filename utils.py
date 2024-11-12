@@ -372,8 +372,11 @@ def invert_categorical_norm(ys, npreds, cpreds, numbins=50):
     bins = np.linspace(min, max, num=numbins)
 
     nys = deepcopy(ys)
-    for num, cat in zip(npreds, cpreds):
-        pass
+    for i, (num, cat) in enumerate(zip(npreds, cpreds)):
+        low = bins[int(cat)]-1
+        high = bins[int(cat)]
 
-        
+        nys[i] = num
+
+    return nys        
 
