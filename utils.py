@@ -289,7 +289,6 @@ def convert_categorical(ys, numbins=50):
         if sum(tbool) > 1:
             nys[np.array(s_inds[tbool])] = i+1
 
-    print(i+1)
     nys[np.isnan(nys)] = numbins
     return nys
 
@@ -357,9 +356,8 @@ def categorical_norm(ys, numbins=50):
         if sum(tbool) > 1:
             nys[np.array(s_inds[tbool])] = i+1
 
-            print(low, high)
             normalized = (nnys[np.array(s_inds[tbool])] - low) / (high-low)
-            print(normalized)
+
             nnys[np.array(s_inds[tbool])] = normalized * 2 - 1
 
     nys[np.isnan(nys)] = numbins

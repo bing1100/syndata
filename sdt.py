@@ -101,7 +101,7 @@ class Transformer(nn.Module):
         return self.norm(x)
 
 class SDT(nn.Module):
-    def __init__(self, time_dim, num_classes, cond_size, y_dim, patch_size, dim, depth, heads, mlp_dim, pool = 'cls', dim_head = 64, dropout = 0., emb_dropout = 0.):
+    def __init__(self, time_dim, cond_size, y_dim, patch_size, dim, depth, heads, mlp_dim, pool = 'cls', dim_head = 64, dropout = 0., emb_dropout = 0.):
         super().__init__()
 
 
@@ -132,10 +132,6 @@ class SDT(nn.Module):
 
         self.pos_embedding = nn.Parameter(torch.randn(1, num_patches + 2, dim))
 
-        self.num_classes = num_classes
-        if self.num_classes > 0:
-            self.label_emb = nn.Embedding(self.num_classes, dim)
-
         self.dropout = nn.Dropout(emb_dropout)
 
         self.transformer = Transformer(self.time_embed_dim, dim, depth, heads, dim_head, mlp_dim, dropout)
@@ -165,8 +161,7 @@ class SDT(nn.Module):
         
         cls_x_in = self.to_cls_y(x_in).unsqueeze(1)
         
-        cls_tokens = self.label_emb(y.squeeze())
-        x = torch.cat((cls_x_in, cls_tokens, x), dim=1)
+        x = torch.cat((cls_x_in, x), dim=1)
         
         x = self.dropout(x)
 
